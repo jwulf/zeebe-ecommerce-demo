@@ -20,7 +20,7 @@ app.listen(port, () =>
 
 async function purchaseRouteHandler(req, res) {
   const { product, creditcard, name } = req.body;
-  console.log(`Ordering Product: ${product} with payment: ${creditcard}`);
+  console.log(`Order for ${name}: ${product} with payment: ${creditcard}`);
 
   const wfi = await zb.createWorkflowInstance("purchase-process", {
     product,

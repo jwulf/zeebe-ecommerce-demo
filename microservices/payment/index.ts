@@ -11,6 +11,7 @@ async function main() {
     const outcome_message = operation_success
       ? `Payment successfully made by ${name}`
       : `Payment method declined for ${name}`;
+    console.log(outcome_message);
     complete.success({ operation_success, outcome_message });
   });
 }
