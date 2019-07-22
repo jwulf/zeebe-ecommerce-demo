@@ -9,7 +9,6 @@ const zb = new ZBClient("localhost");
 
 /** REST Server */
 app.use(bodyParser.json()); // support json encoded bodies
-app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 app.post("/api/purchase", purchaseRouteHandler);
 app.use(express.static("public"));
@@ -44,13 +43,18 @@ deployWorkflow().then(startOutcomeWorker);
 
 /** ZB Outcome Worker */
 function startOutcomeWorker() {
-  zb.createWorker("worker1", "publish-outcome", (job, complete) => {
+  zb.createWorker("outcome-worker", "publish-outcome", (job, complete) => {
     const { workflowInstanceKey, variables } = job;
     const { operation_success, outcome_message } = variables;
-    callbacks[workflowInstanceKey]({
-      operation_success,
-      outcome_message
-    });
-    complete.success();
+    try {
+      callbacks[workflowInstanceKey] &&
+        callbacks[workflowInstanceKey]({
+          operation_success,
+          outcome_message
+        });
+    } finally {
+      callbacks[workflowInstanceKey] = undefined;
+      complete.success();
+    }
   });
 }

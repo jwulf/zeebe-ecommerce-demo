@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0tmesi0" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Zeebe Modeler" exporterVersion="0.6.2">
   <bpmn:process id="purchase-process" name="Purchase Process" isExecutable="true">
-    <bpmn:startEvent id="StartEvent_1">
+    <bpmn:startEvent id="StartEvent_1" name="Order placed">
       <bpmn:outgoing>SequenceFlow_0phr21g</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:serviceTask id="ServiceTask_0fwsxni" name="Check Inventory">
@@ -59,11 +59,11 @@
       <bpmn:outgoing>SequenceFlow_0do85c1</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1n3zeao" sourceRef="ServiceTask_0rjqnav" targetRef="ServiceTask_1m31qzr" />
-    <bpmn:endEvent id="EndEvent_08ka6fr">
+    <bpmn:endEvent id="EndEvent_08ka6fr" name="Order delivered">
       <bpmn:incoming>SequenceFlow_0oafbj9</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_0oafbj9" sourceRef="ServiceTask_10545op" targetRef="EndEvent_08ka6fr" />
-    <bpmn:endEvent id="EndEvent_068cx6u">
+    <bpmn:endEvent id="EndEvent_068cx6u" name="Customer updated">
       <bpmn:incoming>SequenceFlow_0do85c1</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_0do85c1" sourceRef="ServiceTask_1m31qzr" targetRef="EndEvent_068cx6u" />
@@ -96,6 +96,9 @@
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="purchase-process">
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
         <dc:Bounds x="179" y="159" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="166" y="202" width="64" height="14" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_0fwsxni_di" bpmnElement="ServiceTask_0fwsxni">
         <dc:Bounds x="265" y="137" width="100" height="80" />
@@ -161,6 +164,9 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="EndEvent_08ka6fr_di" bpmnElement="EndEvent_08ka6fr">
         <dc:Bounds x="1346" y="159" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1326" y="202" width="76" height="14" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0oafbj9_di" bpmnElement="SequenceFlow_0oafbj9">
         <di:waypoint x="1291" y="177" />
@@ -168,6 +174,9 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="EndEvent_068cx6u_di" bpmnElement="EndEvent_068cx6u">
         <dc:Bounds x="1346" y="352" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1340" y="395" width="48" height="27" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0do85c1_di" bpmnElement="SequenceFlow_0do85c1">
         <di:waypoint x="1291" y="370" />
