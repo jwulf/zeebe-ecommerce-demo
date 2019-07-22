@@ -4,7 +4,7 @@ const zb = new ZBClient("localhost");
 
 async function main() {
   zb.createWorker(
-    "payment-worker",
+    "shipping-worker",
     "ship-items",
     (job, complete) => {
       const operation_success = true;
