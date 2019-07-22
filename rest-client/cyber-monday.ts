@@ -7,6 +7,6 @@ for (let i = 0; i < 1000; i++) {
         product: Product.ZEEBE_OSC_PACK,
         creditcard: PaymentMethod.VALID_PAYMENT_METHOD
       }),
-    100 * i
+    40 * i
   );
 }
