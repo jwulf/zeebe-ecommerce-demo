@@ -7,6 +7,7 @@ let stock = 10000;
 
 async function main() {
   console.log(`Current stock level of Zeebe OSC packs: ${stock}`);
+
   zb.createWorker("inventory-worker", "check-inventory", (job, complete) => {
     const { variables } = job;
     const { product } = variables;
