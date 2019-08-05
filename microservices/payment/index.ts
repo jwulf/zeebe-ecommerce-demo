@@ -4,7 +4,7 @@ import { PaymentMethod } from "../interfaces";
 const zb = new ZBClient("localhost");
 
 async function main() {
-  zb.createWorker("payment-worker", "charge-creditcard", (job, complete) => {
+  zb.createWorker("payment-worker", "collect-payment", (job, complete) => {
     const { variables } = job;
     const { creditcard, name } = variables;
     const operation_success = creditcard == PaymentMethod.VALID_PAYMENT_METHOD;

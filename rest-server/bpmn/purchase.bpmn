@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0tmesi0" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Zeebe Modeler" exporterVersion="0.6.2">
-  <bpmn:process id="purchase-process" name="Purchase Process" isExecutable="true">
+  <bpmn:process id="order-fulfilment" name="Order Fulfilment" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1" name="Order placed">
       <bpmn:outgoing>SequenceFlow_0phr21g</bpmn:outgoing>
     </bpmn:startEvent>
@@ -18,9 +18,9 @@
       <bpmn:outgoing>SequenceFlow_02v94aq</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_1k7m57h" sourceRef="ServiceTask_0fwsxni" targetRef="ExclusiveGateway_0stzv8m" />
-    <bpmn:serviceTask id="ServiceTask_1gu7yj6" name="Charge Credit Card">
+    <bpmn:serviceTask id="ServiceTask_1gu7yj6" name="Collect Payment">
       <bpmn:extensionElements>
-        <zeebe:taskDefinition type="charge-creditcard" retries="3" />
+        <zeebe:taskDefinition type="collect-payment" retries="3" />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1ias624</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0ryly4k</bpmn:outgoing>
@@ -93,7 +93,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_0jjxu0y" sourceRef="ServiceTask_0bmod91" targetRef="ServiceTask_10545op" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="purchase-process">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="order-fulfilment">
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
         <dc:Bounds x="179" y="159" width="36" height="36" />
         <bpmndi:BPMNLabel>

@@ -1,6 +1,11 @@
 import axios from "axios";
 import random from "node-random-name";
 
+const BASE_URL = "http://localhost:3000";
+const httpClient = axios.create();
+
+httpClient.defaults.timeout = 10000;
+
 export async function purchase(req: PurchaseRequest) {
   const request = {
     ...req,
@@ -9,10 +14,36 @@ export async function purchase(req: PurchaseRequest) {
   console.log("\n============");
   console.log({ Request: request });
   console.log(`\n`);
-  const outcome = await axios.post(
-    "http://localhost:3000/api/purchase",
-    request
-  );
+  const outcome = await httpClient.post(`${BASE_URL}/api/purchase`, request);
+  if (outcome.data && outcome.data.callback) {
+    // If the workflow does not complete in time, the server returns a callback url
+    // that we can poll for an eventual result
+    console.log(
+      "REST Request timed out, switching to polling mode to retrieve outcome..."
+    );
+    pollForResult(`${BASE_URL}${outcome.data.callback}`).then(printResult);
+  } else {
+    printResult(outcome);
+  }
+}
+
+function pollForResult(url) {
+  return new Promise((resolve, reject) => {
+    function pollAgain() {
+      setTimeout(async () => {
+        try {
+          const outcome = await httpClient.get(url);
+          resolve(outcome);
+        } catch (e) {
+          pollAgain();
+        }
+      }, 1000);
+    }
+    pollAgain();
+  });
+}
+
+function printResult(outcome) {
   console.log({ Response: outcome.data });
 }
 

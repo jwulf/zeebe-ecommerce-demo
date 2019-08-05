@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0rsor4v" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Zeebe Modeler" exporterVersion="0.6.2">
+  <bpmn:process id="buy-product" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1xnpa0s">
+      <bpmn:outgoing>SequenceFlow_1frthi2</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="ServiceTask_0echsd4" name="Check Inventory">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="check-inventory" retries="3" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1frthi2</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0o4fm63</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1frthi2" sourceRef="StartEvent_1xnpa0s" targetRef="ServiceTask_0echsd4" />
+    <bpmn:serviceTask id="ServiceTask_0ug09k9" name="Charge Credit Card">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="charge-creditcard" retries="3" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0o4fm63</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1swki7h</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0o4fm63" sourceRef="ServiceTask_0echsd4" targetRef="ServiceTask_0ug09k9" />
+    <bpmn:serviceTask id="ServiceTask_0fe20of" name="Ship Product">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="ship-product" retries="3" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1swki7h</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0f8kvk6</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1swki7h" sourceRef="ServiceTask_0ug09k9" targetRef="ServiceTask_0fe20of" />
+    <bpmn:endEvent id="EndEvent_18mz9jq">
+      <bpmn:incoming>SequenceFlow_0f8kvk6</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0f8kvk6" sourceRef="ServiceTask_0fe20of" targetRef="EndEvent_18mz9jq" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="buy-product">
+      <bpmndi:BPMNShape id="StartEvent_1xnpa0s_di" bpmnElement="StartEvent_1xnpa0s">
+        <dc:Bounds x="126" y="103" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0echsd4_di" bpmnElement="ServiceTask_0echsd4">
+        <dc:Bounds x="212" y="81" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1frthi2_di" bpmnElement="SequenceFlow_1frthi2">
+        <di:waypoint x="162" y="121" />
+        <di:waypoint x="212" y="121" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0ug09k9_di" bpmnElement="ServiceTask_0ug09k9">
+        <dc:Bounds x="362" y="81" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0o4fm63_di" bpmnElement="SequenceFlow_0o4fm63">
+        <di:waypoint x="312" y="121" />
+        <di:waypoint x="362" y="121" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0fe20of_di" bpmnElement="ServiceTask_0fe20of">
+        <dc:Bounds x="512" y="81" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1swki7h_di" bpmnElement="SequenceFlow_1swki7h">
+        <di:waypoint x="462" y="121" />
+        <di:waypoint x="512" y="121" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_18mz9jq_di" bpmnElement="EndEvent_18mz9jq">
+        <dc:Bounds x="662" y="103" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0f8kvk6_di" bpmnElement="SequenceFlow_0f8kvk6">
+        <di:waypoint x="612" y="121" />
+        <di:waypoint x="662" y="121" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

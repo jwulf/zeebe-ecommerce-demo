@@ -10,6 +10,7 @@ async function main() {
       const operation_success = true;
       const { variables } = job;
       const { product, name } = variables;
+      console.log(`Calling shipping API for ${name}...`);
       setTimeout(() => {
         const outcome_message = `Shipped ${product} to ${name}`;
         console.log(outcome_message);
