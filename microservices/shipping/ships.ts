@@ -11,6 +11,7 @@ async function main() {
       const { variables } = job;
       const { product, name } = variables;
       console.log(`Calling shipping API for ${name}...`);
+      /** Emulate a 2 second delay calling a third-party shipping API like Temando */
       setTimeout(() => {
         const outcome_message = `Shipped ${product} to ${name}`;
         console.log(outcome_message);

@@ -27,6 +27,9 @@ export async function purchase(req: PurchaseRequest) {
   }
 }
 
+/**
+ * Continually poll for the outcome until we get it
+ */
 function pollForResult(url) {
   return new Promise((resolve, reject) => {
     function pollAgain() {
