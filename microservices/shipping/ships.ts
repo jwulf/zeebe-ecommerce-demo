@@ -1,6 +1,9 @@
 import { ZBClient } from "zeebe-node";
+import { printMemoryUsage } from "../lib/memory";
 
-const zb = new ZBClient("localhost");
+const zb = new ZBClient("localhost", {
+  longPoll: 300000
+});
 
 async function main() {
   zb.createWorker(
@@ -19,9 +22,13 @@ async function main() {
       }, 2000);
     },
     {
-      timeout: 30000
+      timeout: 30000,
+      maxJobsToActivate: 128,
+      pollInterval: 1000
     }
   );
 }
 
 main();
+
+printMemoryUsage();

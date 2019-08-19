@@ -1,4 +1,5 @@
 import { ZBClient } from "zeebe-node";
+import { printMemoryUsage } from "../lib/memory";
 
 const zb = new ZBClient("localhost");
 
@@ -14,3 +15,5 @@ async function main() {
 }
 
 main();
+
+printMemoryUsage();

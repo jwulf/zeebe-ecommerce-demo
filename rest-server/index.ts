@@ -37,12 +37,22 @@ async function purchaseRouteHandler(
   const REQUEST_TIMEOUT = 9000;
   const { product, creditcard, name } = req.body;
   console.log(`Order for ${name}: ${product} with payment: ${creditcard}`);
-
-  const wfi = await zb.createWorkflowInstance("order-fulfilment", {
-    product,
-    creditcard,
-    name
-  });
+  let wfi;
+  try {
+    wfi = await zb.createWorkflowInstance("order-fulfilment", {
+      product,
+      creditcard,
+      name
+    });
+  } catch (e) {
+    // If the broker has been restarted, redeploy
+    await deployWorkflow();
+    wfi = await zb.createWorkflowInstance("order-fulfilment", {
+      product,
+      creditcard,
+      name
+    });
+  }
 
   const { workflowInstanceKey } = wfi;
 
@@ -90,30 +100,35 @@ async function deployWorkflow() {
 
 /** ZB Outcome Worker */
 async function startOutcomeWorker() {
-  zb.createWorker("outcome-worker", "publish-outcome", (job, complete) => {
-    const { workflowInstanceKey, variables } = job;
-    const { operation_success, outcome_message } = variables;
+  zb.createWorker(
+    "outcome-worker",
+    "publish-outcome",
+    (job, complete) => {
+      const { workflowInstanceKey, variables } = job;
+      const { operation_success, outcome_message } = variables;
 
-    /**
-     * Put this in a try-finally block to ensure the job completes even if the response callback
-     * fails (due to closed connection, etc...)
-     * */
-    try {
-      const isRestRequestStillAlive = callbacks.has(workflowInstanceKey);
-      if (isRestRequestStillAlive) {
-        callbacks.get(workflowInstanceKey)({
-          operation_success,
-          outcome_message
-        });
-      } else {
-        cachedOutcomes.set(workflowInstanceKey, {
-          operation_success,
-          outcome_message
-        });
+      /**
+       * Put this in a try-finally block to ensure the job completes even if the response callback
+       * fails (due to closed connection, etc...)
+       * */
+      try {
+        const isRestRequestStillAlive = callbacks.has(workflowInstanceKey);
+        if (isRestRequestStillAlive) {
+          callbacks.get(workflowInstanceKey)({
+            operation_success,
+            outcome_message
+          });
+        } else {
+          cachedOutcomes.set(workflowInstanceKey, {
+            operation_success,
+            outcome_message
+          });
+        }
+      } finally {
+        callbacks.delete(workflowInstanceKey);
+        complete.success();
       }
-    } finally {
-      callbacks.delete(workflowInstanceKey);
-      complete.success();
-    }
-  });
+    },
+    { loglevel: "ERROR", pollInterval: 100 }
+  );
 }

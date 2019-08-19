@@ -4,12 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "inventory": "ts-node inventory/index.ts | pino-pretty --colorize",
+    "payment": "ts-node payment/index.ts | pino-pretty --colorize",
+    "ships": "ts-node shipping/ships.ts | pino-pretty --colorize",
+    "noship": "ts-node shipping/doesnt-ship.ts | pino-pretty --colorize"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "pino-pretty": "^3.2.1",
     "zeebe-node": "^0.20.0"
   }
 }
