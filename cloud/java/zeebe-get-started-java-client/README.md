@@ -1,6 +1,2 @@
-curl --request POST \
-  --url https://login.cloud.ultrawombat.com/oauth/token \
-  --header 'content-type: application/json' \
-  --data '{"client_id":"U0Uufoy46m1EEQ8GkqvdJ621KCF02qkb","client_secret":"axjo0n5c5e98hd4_P7BTC4Qpd7x-s28xvvSB0Hiz9_qR27mouRS4p5wQJRRoiIsd","audience":"4a274e8f-2c79-4322-9342-23edb79ebb4d.zeebe.ultrawombat.com","grant_type":"client_credentials"}' \
-  --insecure
-{"access_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IlJrRkNOak15TnpBeU5UUkNOa1F6UWpBM05UZzVOMFk1UmpkR1JFTXhSakkwUWpVNU4wUTFSZyJ9.eyJpc3MiOiJodHRwczovL2xvZ2luLmNsb3VkLnVsdHJhd29tYmF0LmNvbS8iLCJzdWIiOiJVMFV1Zm95NDZtMUVFUThHa3F2ZEo2MjFLQ0YwMnFrYkBjbGllbnRzIiwiYXVkIjoiNGEyNzRlOGYtMmM3OS00MzIyLTkzNDItMjNlZGI3OWViYjRkLnplZWJlLnVsdHJhd29tYmF0LmNvbSIsImlhdCI6MTU2NzA4NTc2NSwiZXhwIjoxNTY3MTcyMTY1LCJhenAiOiJVMFV1Zm95NDZtMUVFUThHa3F2ZEo2MjFLQ0YwMnFrYiIsInNjb3BlIjoiZ3JwYyIsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyJ9.JLgFpyqcQT4KFIUxCjtdIgzMT19KJVxniqtDakDWBKGDjydZG0sGVOkHFQNQFuP96sIFEgEEdL1eQ33NxEfFuuFcNcUhmtCZlktdZTFqdgjXse8QeAgw1z60ZJXForRITVS9OMLRJq8Fy_URt1hwpqqTPWxT71nWKbxdDZ2wSFxgYm2JX0aTRaiNL8mBnYfdM7koJrImN_TAqWB8piDaYe9ktXH3fsX2-Z8crXFdtrIPT6nHh2T5pImAuNuGifPfrlCmuSz30B_kGeCFE5pe3RgKg7gk6o7WMGDBsRpl7fi68fv1PpwB6B1RNI0QtX-BfT7Q7HhIty4hJxCaCLe1pw","scope":"grpc","expires_in":86400,"token_type":"Bearer"}%
+# Zeebe E-commerce demo Java
+
