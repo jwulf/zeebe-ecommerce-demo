@@ -35,6 +35,10 @@
     <bpmn:serviceTask id="ServiceTask_0rjqnav" name="Ship Items">
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="ship-items" retries="1" />
+        <zeebe:taskHeaders>
+          <zeebe:header key="customShippingHeader" value="something" />
+          <zeebe:header key="otherCustomShipping" value="1" />
+        </zeebe:taskHeaders>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0t9ct6l</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1n3zeao</bpmn:outgoing>

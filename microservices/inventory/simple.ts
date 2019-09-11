@@ -1,24 +1,16 @@
 import { ZBClient } from "zeebe-node";
+import { Product } from "../interfaces";
 
-import {
-  Product,
-  WorkflowVariables,
-  WorkflowCustomHeaders
-} from "../interfaces";
-import { printMemoryUsage } from "../lib/memory";
-import brokerConfig from "../../zeebe-broker-connection";
+const zb = new ZBClient("localhost", {
+  longPoll: 10000
+});
 
 let stock = 10000;
 
 async function main() {
-  const zb = new ZBClient({
-    longPoll: 10000,
-    ...brokerConfig
-  });
-
   console.log(`Current stock level of Zeebe OSC packs: ${stock}`);
 
-  zb.createWorker<WorkflowVariables, WorkflowCustomHeaders, WorkflowVariables>(
+  zb.createWorker(
     "inventory-worker-1",
     "check-inventory",
     (job, complete) => {
@@ -31,15 +23,10 @@ async function main() {
       console.log(outcome_message);
       complete.success({ operation_success, outcome_message });
     },
-    {
-      loglevel: "INFO",
-      maxJobsToActivate: 10,
-      timeout: 10000,
-      longPoll: 10000
-    }
+    { loglevel: "INFO", maxJobsToActivate: 128, pollInterval: 1000 }
   );
 
-  zb.createWorker<WorkflowVariables>(
+  zb.createWorker(
     "inventory-worker-2",
     "decrement-stock",
     (job, complete) => {
@@ -50,10 +37,8 @@ async function main() {
       console.log(outcome_message);
       complete.success();
     },
-    { timeout: 10000, longPoll: 10000, maxJobsToActivate: 10 }
+    { pollInterval: 1000 }
   );
 }
 
 main();
-
-printMemoryUsage();

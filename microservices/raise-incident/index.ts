@@ -12,7 +12,7 @@ async function main() {
       });
     }
     console.log("Raising incident");
-    complete.failure(outcome_message);
+    complete.failure(outcome_message!);
   });
 }
 
