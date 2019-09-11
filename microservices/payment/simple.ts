@@ -1,18 +1,12 @@
 import { ZBClient } from "zeebe-node";
-import {
-  PaymentMethod,
-  WorkflowVariables,
-  WorkflowCustomHeaders
-} from "../interfaces";
-import { printMemoryUsage } from "../lib/memory";
-import brokerConfig from "../../zeebe-broker-connection";
+import { PaymentMethod } from "../interfaces";
+
+const zb = new ZBClient("localhost", {
+  longPoll: 30000
+});
 
 async function main() {
-  const zb = new ZBClient({
-    longPoll: 10000,
-    ...brokerConfig
-  });
-  zb.createWorker<WorkflowVariables, WorkflowCustomHeaders, WorkflowVariables>(
+  zb.createWorker(
     "payment-worker",
     "collect-payment",
     (job, complete) => {
@@ -29,15 +23,8 @@ async function main() {
 
       complete.success({ operation_success, outcome_message });
     },
-    {
-      timeout: 10000,
-      longPoll: 10000,
-      loglevel: "INFO",
-      maxJobsToActivate: 64
-    }
+    { pollInterval: 1000, loglevel: "INFO" }
   );
 }
 
 main();
-
-printMemoryUsage();

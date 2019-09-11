@@ -13,3 +13,10 @@ Operate is running on [http://localhost:8080](http://localhost:8080). Login is d
 
 Experiment with making orders, with all microservices running, and with various ones in a failure state.
 
+curl --request POST \
+  --url https://login.cloud.[ultrawombat.com | camunda.io]/oauth/token \
+  --header 'content-type: application/json' \
+  --data '{"client_id":"${clientId}","client_secret":"${clientSecret}","audience":"${audience}","grant_type":"client_credentials"}'
+
+
+  curl --request POST --url https://login.cloud.ultrawombat.com/oauth/token --header 'content-type: application/json' --data '{"client_id":"YaNx4Qf0uQSBcPDW9qQk6Q4SZaRUA7SK","client_secret":"llKhkB_r7PsfnaWnQVDbdU9aXPAIjhTKiqLwsAySZI6XRgcs0pHofCBqT1j54amF","audience":"817d8be9-25e2-42f1-81b8-c8cfbd2adb75.zeebe.ultrawombat.com","grant_type":"client_credentials"}'

@@ -4,7 +4,7 @@ import random from "node-random-name";
 const BASE_URL = "http://localhost:3000";
 const httpClient = axios.create();
 
-httpClient.defaults.timeout = 10000;
+httpClient.defaults.timeout = 15000;
 
 export async function purchase(req: PurchaseRequest) {
   const request = {

@@ -14,6 +14,6 @@
   "license": "ISC",
   "dependencies": {
     "pino-pretty": "^3.2.1",
-    "zeebe-node": "^0.20.0"
+    "zeebe-node": "^0.20.3"
   }
 }

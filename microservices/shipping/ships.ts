@@ -1,12 +1,14 @@
 import { ZBClient } from "zeebe-node";
 import { printMemoryUsage } from "../lib/memory";
-
-const zb = new ZBClient("localhost", {
-  longPoll: 300000
-});
+import { WorkflowVariables, WorkflowCustomHeaders } from "../interfaces";
+import brokerConfig from "../../zeebe-broker-connection";
 
 async function main() {
-  zb.createWorker(
+  const zb = new ZBClient({
+    longPoll: 10000,
+    ...brokerConfig
+  });
+  zb.createWorker<WorkflowVariables, WorkflowCustomHeaders, WorkflowVariables>(
     "shipping-worker",
     "ship-items",
     (job, complete) => {
@@ -19,12 +21,13 @@ async function main() {
         const outcome_message = `Shipped ${product} to ${name}`;
         console.log(outcome_message);
         complete.success({ operation_success, outcome_message });
-      }, 2000);
+      }, 200);
     },
     {
-      timeout: 30000,
-      maxJobsToActivate: 128,
-      pollInterval: 1000
+      timeout: 10000,
+      maxJobsToActivate: 64,
+      pollInterval: 10000,
+      longPoll: 10000
     }
   );
 }
