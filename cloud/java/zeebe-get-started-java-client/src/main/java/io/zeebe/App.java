@@ -2,8 +2,9 @@ package io.zeebe;
 
 import io.zeebe.client.ZeebeClient;
 import io.zeebe.client.api.response.Topology;
-import io.zeebe.client.impl.OAuthCredentialsProvider;
-import io.zeebe.client.impl.OAuthCredentialsProviderBuilder;
+import io.zeebe.client.CredentialsProvider
+import io.zeebe.client.impl.oauth.OAuthCredentialsProviderBuilder;
+import io.zeebe.client.impl.oauth.OAuthCredentialsProvider;
 import io.zeebe.client.api.response.ActivatedJob;
 import io.zeebe.client.api.worker.JobClient;
 import io.zeebe.client.api.worker.JobHandler;
@@ -18,9 +19,9 @@ public class App {
     public static void main(String[] args) {
         final String clusterUUID = System.getenv("CC_CLUSTER_UUID");
         final String baseUrl = System.getenv("CC_BASE_URL");
-        final String clientId = System.getenv("CC_CLIENT_ID");
-        final String clientSecret = System.getenv("CC_CLIENT_SECRET");
-        final String authUrl = System.getenv("CC_AUTH_URL");
+        final String clientId = System.getenv("ZEEBE_CLIENT_ID");
+        final String clientSecret = System.getenv("ZEEBE_CLIENT_SECRET");
+        final String authUrl = "https://login.cloud.camunda.io/oauth/token";
 
         final OAuthCredentialsProviderBuilder c = new OAuthCredentialsProviderBuilder();
         final OAuthCredentialsProvider cred = c.audience(clusterUUID + "." + baseUrl).clientId(clientId)
