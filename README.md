@@ -13,6 +13,8 @@ npm run payments
 npm run ships
 ```
 
+There are Java workers in the `cloud/java/zeebe-get-started-java-client` directory.
+
 The webstore is running on localhost:3000/shop. It's a dummy at the moment, and the client API requests are emulated in `rest-client`.
 
 Operate is running on [http://localhost:8080](http://localhost:8080). Login is demo/demo.
@@ -27,4 +29,5 @@ To run on Camunda Cloud:
 * Create a new Zeebe cluster.
 * Create a new client in the console.
 * Put your credentials in the `zeebe-broker-config.ts` file.
-* Run each component with this in front of the command to start it: `PROFILE=CLOUD`, for example: `cd microservices & PROFILE=CLOUD npm run inventory`
+* Run each Node microservice component with this in front of the command to start it: `PROFILE=CLOUD`, for example: `cd microservices & PROFILE=CLOUD npm run inventory`
+* See the README in the `cloud/java/zeebe-get-started-java-client` directory for instructions on starting the Java microservice workers.
