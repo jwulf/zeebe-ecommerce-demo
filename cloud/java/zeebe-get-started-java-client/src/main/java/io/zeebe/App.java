@@ -2,7 +2,6 @@ package io.zeebe;
 
 import io.zeebe.client.ZeebeClient;
 import io.zeebe.client.api.response.Topology;
-import io.zeebe.client.CredentialsProvider
 import io.zeebe.client.impl.oauth.OAuthCredentialsProviderBuilder;
 import io.zeebe.client.impl.oauth.OAuthCredentialsProvider;
 import io.zeebe.client.api.response.ActivatedJob;
@@ -12,25 +11,22 @@ import io.zeebe.client.api.worker.JobHandler;
 import java.time.Duration;
 import java.util.Scanner;
 
-/**
- * Hello world!
- */
 public class App {
     public static void main(String[] args) {
-        final String clusterUUID = System.getenv("CC_CLUSTER_UUID");
-        final String baseUrl = System.getenv("CC_BASE_URL");
-        final String clientId = System.getenv("ZEEBE_CLIENT_ID");
-        final String clientSecret = System.getenv("ZEEBE_CLIENT_SECRET");
-        final String authUrl = "https://login.cloud.camunda.io/oauth/token";
-
-        final OAuthCredentialsProviderBuilder c = new OAuthCredentialsProviderBuilder();
-        final OAuthCredentialsProvider cred = c.audience(clusterUUID + "." + baseUrl).clientId(clientId)
-                .clientSecret(clientSecret).authorizationServerUrl(authUrl).build();
-
-        final String broker = clusterUUID + "." + baseUrl + ":443";
+        /*
+        Set the cluster Zeebe ContactPoint in the environment variable ZEEBE_ADDRESS
+         */
+        final String broker = System.getenv("ZEEBE_ADDRESS");
+        /*
+         * Set the following environment variables to have them picked up automagically:
+         * ZEEBE_TOKEN_AUDIENCE
+         * ZEEBE_CLIENT_SECRET
+         * ZEEBE_CLIENT_ID
+         */
+        final OAuthCredentialsProvider cred = new OAuthCredentialsProviderBuilder()
+                .build();
 
         final ZeebeClient client = ZeebeClient.newClientBuilder()
-                // change the contact point if needed
                 .brokerContactPoint(broker)
                 .credentialsProvider(cred)
                 .build();
