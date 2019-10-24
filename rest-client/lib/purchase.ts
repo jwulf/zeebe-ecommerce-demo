@@ -16,11 +16,8 @@ export async function purchase(req: PurchaseRequest) {
   console.log(`\n`);
   const outcome = await httpClient.post(`${BASE_URL}/api/purchase`, request);
   if (outcome.data && outcome.data.callback) {
-    // If the workflow does not complete in time, the server returns a callback url
-    // that we can poll for an eventual result
-    console.log(
-      "REST Request timed out, switching to polling mode to retrieve outcome..."
-    );
+    // We poll for an eventual result
+    console.log("Polling to retrieve outcome...");
     pollForResult(`${BASE_URL}${outcome.data.callback}`).then(printResult);
   } else {
     printResult(outcome);

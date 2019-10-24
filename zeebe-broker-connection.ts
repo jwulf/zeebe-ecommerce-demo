@@ -1,10 +1,10 @@
 const brokerConfig = {
   cloud: {
     camundaCloud: {
-      clusterId: "1cadb038-fcd7-41eb-976d-36cd8eaa068c",
-      clientId: "fEzXbdt8XO0amTJTXJ9N6q9BtUSx78ld",
+      clusterId: "a45a387d-4b99-474e-b7e7-43df0b256801",
+      clientId: "sp1ehLVZmbK4EjDKButmhE7EsrU56dWd",
       clientSecret:
-        "si9Wq8ef7d_vM1LCpxkiaHXQqXAYc1r_11G8KxIa_9Hgcx4fWVepcaAyJKEFEpUI"
+        "ZBFmLxoKqIAzet-pPM2BmQ3ubfvaOB7501CJLt7AWFqvO4r4Efww6WK0bR5pf4g8"
     }
   },
   local: {

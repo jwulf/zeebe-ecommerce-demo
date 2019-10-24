@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0tmesi0" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Zeebe Modeler" exporterVersion="0.6.2">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0tmesi0" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Zeebe Modeler" exporterVersion="0.7.0-alpha.2">
   <bpmn:process id="order-fulfilment" name="Order Fulfilment" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1" name="Order placed">
       <bpmn:outgoing>SequenceFlow_0phr21g</bpmn:outgoing>
@@ -53,7 +53,7 @@
       <bpmn:incoming>SequenceFlow_0jjxu0y</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0oafbj9</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="ServiceTask_1m31qzr" name="Publish Outcome">
+    <bpmn:serviceTask id="publish_outcome" name="Publish Outcome">
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="publish-outcome" />
       </bpmn:extensionElements>
@@ -62,7 +62,7 @@
       <bpmn:incoming>SequenceFlow_02v94aq</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0do85c1</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_1n3zeao" sourceRef="ServiceTask_0rjqnav" targetRef="ServiceTask_1m31qzr" />
+    <bpmn:sequenceFlow id="SequenceFlow_1n3zeao" sourceRef="ServiceTask_0rjqnav" targetRef="publish_outcome" />
     <bpmn:endEvent id="EndEvent_08ka6fr" name="Order delivered">
       <bpmn:incoming>SequenceFlow_0oafbj9</bpmn:incoming>
     </bpmn:endEvent>
@@ -70,7 +70,7 @@
     <bpmn:endEvent id="EndEvent_068cx6u" name="Customer updated">
       <bpmn:incoming>SequenceFlow_0do85c1</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="SequenceFlow_0do85c1" sourceRef="ServiceTask_1m31qzr" targetRef="EndEvent_068cx6u" />
+    <bpmn:sequenceFlow id="SequenceFlow_0do85c1" sourceRef="publish_outcome" targetRef="EndEvent_068cx6u" />
     <bpmn:exclusiveGateway id="ExclusiveGateway_0uw0j7l" name="Shipping succeeded?" default="SequenceFlow_0zgt195">
       <bpmn:incoming>SequenceFlow_0f18p1d</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0zgt195</bpmn:outgoing>
@@ -78,10 +78,10 @@
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_0f18p1d" sourceRef="ServiceTask_0rjqnav" targetRef="ExclusiveGateway_0uw0j7l" />
     <bpmn:sequenceFlow id="SequenceFlow_0zgt195" name="Yes" sourceRef="ExclusiveGateway_0uw0j7l" targetRef="ServiceTask_10545op" />
-    <bpmn:sequenceFlow id="SequenceFlow_0hyll8g" name="No" sourceRef="ExclusiveGateway_0i8vvgy" targetRef="ServiceTask_1m31qzr">
+    <bpmn:sequenceFlow id="SequenceFlow_0hyll8g" name="No" sourceRef="ExclusiveGateway_0i8vvgy" targetRef="publish_outcome">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">operation_success==false</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_02v94aq" name="No" sourceRef="ExclusiveGateway_0stzv8m" targetRef="ServiceTask_1m31qzr">
+    <bpmn:sequenceFlow id="SequenceFlow_02v94aq" name="No" sourceRef="ExclusiveGateway_0stzv8m" targetRef="publish_outcome">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">operation_success==false</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:serviceTask id="ServiceTask_0bmod91" name="Raise Incident">
@@ -154,7 +154,7 @@
       <bpmndi:BPMNShape id="ServiceTask_10545op_di" bpmnElement="ServiceTask_10545op">
         <dc:Bounds x="1191" y="137" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_1m31qzr_di" bpmnElement="ServiceTask_1m31qzr">
+      <bpmndi:BPMNShape id="ServiceTask_1m31qzr_di" bpmnElement="publish_outcome">
         <dc:Bounds x="1191" y="330" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1n3zeao_di" bpmnElement="SequenceFlow_1n3zeao">

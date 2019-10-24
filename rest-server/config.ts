@@ -1,0 +1,1 @@
+export const MAX_PARALLEL_WORKFLOWS = 1;
