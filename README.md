@@ -2,18 +2,27 @@
 
 This is the "TODO app" of Zeebe demos: an ecommerce flow.
 
+![](img/workflow.png)
+
 - Install dependencies with `npm i && npm i -g ts-node typescript`.
-- Use the `operate` profile of [zeebe-docker-compose](https://github.com/zeebe-io/zeebe-docker-compose) to start the broker.
+- Use the `operate` or `broker-only` profile of [zeebe-docker-compose](https://github.com/zeebe-io/zeebe-docker-compose) to start the broker.
 - Start the REST server: `cd rest-server && ts-node index.ts`
 - Start each of the microservices in a separate terminal:
 ```
 cd microservices
 npm run inventory
-npm run payments
+npm run payment
 npm run ships
 ```
 
-There are Java workers in the `cloud/java/zeebe-get-started-java-client` directory.
+- Start workflows:
+
+```bash
+cd rest-client
+ts-node zeebe-osc-pack.ts
+ts-node zeebe-osc-pack-invalid.ts
+ts-node cyber-monday.ts
+```
 
 The webstore is running on localhost:3000/shop. It's a dummy at the moment, and the client API requests are emulated in `rest-client`.
 
