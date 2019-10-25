@@ -5,6 +5,7 @@ const BASE_URL = "http://localhost:3000";
 const httpClient = axios.create();
 
 httpClient.defaults.timeout = 15000;
+let outcomeCount = 0;
 
 export async function purchase(req: PurchaseRequest) {
   const request = {
@@ -33,7 +34,9 @@ function pollForResult(url) {
       setTimeout(async () => {
         try {
           const outcome = await httpClient.get(url);
-          resolve(outcome);
+          outcomeCount++;
+          console.log(outcome.data.outcome_message);
+          resolve({ data: `${outcomeCount}: ${outcome.data.outcome_message}` });
         } catch (e) {
           pollAgain();
         }
@@ -44,7 +47,7 @@ function pollForResult(url) {
 }
 
 function printResult(outcome) {
-  console.log({ Response: outcome.data });
+  console.log(outcome.data);
 }
 
 export enum Product {

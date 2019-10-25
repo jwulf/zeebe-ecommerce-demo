@@ -9,7 +9,7 @@ async function main() {
   )).data;
   const hrstart = process.hrtime();
 
-  for (let i = 0; i < NUMBER_OF_ORDERS - 1; i++) {
+  for (let i = 0; i < NUMBER_OF_ORDERS; i++) {
     setTimeout(
       () =>
         purchase({
@@ -30,9 +30,16 @@ async function main() {
     console.log(`Workflows executed: ${NUMBER_OF_ORDERS}`);
     console.log(`Parallel workflow execution: ${parallelism}`);
     console.info("Execution time (hr): %ds %dms", hrend[0], hrend[1] / 1000000);
-    const averageTime =
-      ((seconds * 1000 + ms) / Math.min(parallelism, NUMBER_OF_ORDERS)) * 10;
-    console.log(`Average end-to-end time: ${averageTime}ms`);
+    if (parallelism === 1) {
+      const averageTime = seconds * 1000 + ms;
+      console.log(`Average end-to-end time: ${averageTime}ms`);
+    } else {
+      console.log(
+        `To get an end-to-end measurement per workflow, 
+set MAX_PARALLEL_WORKFLOWS=1 in rest-server/config.ts 
+and restart the REST server`
+      );
+    }
   });
 }
 
