@@ -14,7 +14,7 @@ You can use this demo to see:
 
 ## Setup
 
-- Install dependencies with `npm i && npm i -g ts-node typescript`.
+- Install dependencies with `npm i`.
 - Use the `operate` or `broker-only` profile of [zeebe-docker-compose](https://github.com/zeebe-io/zeebe-docker-compose) to start the broker.
 
 The file `rest-server/config.ts` configures the number of workflows that will be executed in parallel. You can set it to `1` to execute workflows sequentially to get a sense of the end-to-end execution time of the workflow. You can run `cyber-monday` with 1000 iterations and the parallel workflows set to 1000 to run them all in parallel, and anything in between.
@@ -24,6 +24,7 @@ The file `rest-server/config.ts` configures the number of workflows that will be
 
 ```bash
 cd microservices
+npm i
 npm run inventory
 npm run payment
 npm run ships
@@ -50,8 +51,9 @@ Experiment with making orders, with all microservices running, and with various 
 
 To run on Camunda Cloud:
 
-* Get an account in the closed beta [here](https://zeebe.io/cloud/).
+* Get an account in the beta [here](https://camunda.io).
 * Create a new Zeebe cluster.
 * Create a new client in the console.
-* Put your credentials in the `zeebe-broker-config.ts` file.
-* Run each Node microservice component with this in front of the command to start it: `PROFILE=CLOUD`, for example: `cd microservices && PROFILE=CLOUD npm run inventory`
+* Copy your worker credentials.
+* Paste them into your environment.
+

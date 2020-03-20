@@ -1,15 +1,12 @@
-import { ZBClient } from "zeebe-node";
+import { ZBClient, Duration } from "zeebe-node";
 import { PaymentMethod } from "../interfaces";
 
-const zb = new ZBClient("localhost", {
-  longPoll: 30000
-});
+const zb = new ZBClient();
 
 async function main() {
-  zb.createWorker(
-    "payment-worker",
-    "collect-payment",
-    (job, complete) => {
+  zb.createWorker({
+    taskType: "collect-payment",
+    taskHandler: (job, complete) => {
       const { variables } = job;
       const { creditcard, name } = variables;
 
@@ -23,8 +20,9 @@ async function main() {
 
       complete.success({ operation_success, outcome_message });
     },
-    { pollInterval: 1000, loglevel: "INFO" }
-  );
+    longPoll: Duration.seconds.of(60),
+    loglevel: "INFO"
+  });
 }
 
 main();

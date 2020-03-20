@@ -1,9 +1,9 @@
 import { ZBClient } from "zeebe-node";
 
-const zb = new ZBClient("localhost");
+const zb = new ZBClient();
 
 async function main() {
-  zb.createWorker("raise-incident", "raise-incident", (job, complete) => {
+  zb.createWorker("raise-incident", (job, complete) => {
     const { variables } = job;
     const { outcome_message, operation_success, product, name } = variables;
     if (operation_success) {

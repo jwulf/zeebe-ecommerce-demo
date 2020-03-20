@@ -1,19 +1,16 @@
-import { ZBClient } from "zeebe-node";
+import { ZBClient, Duration } from "zeebe-node";
 import { Product } from "../interfaces";
 
-const zb = new ZBClient("localhost", {
-  longPoll: 10000
-});
+const zb = new ZBClient();
 
 let stock = 10000;
 
 async function main() {
   console.log(`Current stock level of Zeebe OSC packs: ${stock}`);
 
-  zb.createWorker(
-    "inventory-worker-1",
-    "check-inventory",
-    (job, complete) => {
+  zb.createWorker({
+    taskType: "check-inventory",
+    taskHandler: (job, complete) => {
       const { variables } = job;
       const { product, name } = variables;
       const operation_success = product == Product.ZEEBE_OSC_PACK && stock > 0;
@@ -23,13 +20,14 @@ async function main() {
       console.log(outcome_message);
       complete.success({ operation_success, outcome_message });
     },
-    { loglevel: "INFO", maxJobsToActivate: 128, pollInterval: 1000 }
-  );
+    loglevel: "INFO",
+    maxJobsToActivate: 128,
+    longPoll: Duration.seconds.of(60)
+  });
 
-  zb.createWorker(
-    "inventory-worker-2",
-    "decrement-stock",
-    (job, complete) => {
+  zb.createWorker({
+    taskType: "decrement-stock",
+    taskHandler: (job, complete) => {
       const { variables } = job;
       const { product } = variables;
       stock--;
@@ -37,8 +35,8 @@ async function main() {
       console.log(outcome_message);
       complete.success();
     },
-    { pollInterval: 1000 }
-  );
+    longPoll: Duration.seconds.of(60)
+  });
 }
 
 main();

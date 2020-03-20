@@ -17,6 +17,6 @@
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "pino-pretty": "^3.2.1",
-    "zeebe-node": "^0.21.1"
+    "zeebe-node": "0.23.0-alpha.3"
   }
 }

@@ -1,8 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
-import { ZBClient } from "zeebe-node";
+import { ZBClient, Duration } from "zeebe-node";
 import { v4 as uuid } from "uuid";
-import brokerConfig from "../zeebe-broker-connection";
 import { queue } from "async";
 import { MAX_PARALLEL_WORKFLOWS } from "./config";
 // A Map of Functions to return a REST Response
@@ -13,15 +12,7 @@ let deploying: Promise<any> | undefined = undefined;
 
 /** Main */
 
-const conf = {
-  loglevel: "DEBUG" as "NONE",
-  longPoll: 10000,
-  retry: true,
-  ...brokerConfig
-};
-
-console.log(conf);
-const zb = new ZBClient(conf);
+const zb = new ZBClient();
 
 deployWorkflow()
   .then(startOutcomeWorker)
@@ -73,18 +64,12 @@ async function purchaseRouteHandler(
     await deploying;
 
     try {
-      wfi = await zb.createWorkflowInstance(
-        "order-fulfilment",
-        {
-          product,
-          creditcard,
-          name,
-          future
-        },
-        {
-          retry: false
-        }
-      );
+      wfi = await zb.createWorkflowInstance("order-fulfilment", {
+        product,
+        creditcard,
+        name,
+        future
+      });
     } catch (e) {
       // If the broker has been restarted, redeploy
       await deploying;
@@ -135,10 +120,9 @@ async function deployWorkflow(broker?) {
 
 /** ZB Outcome Worker */
 async function startOutcomeWorker() {
-  zb.createWorker(
-    "outcome-worker",
-    "publish-outcome",
-    (job, complete) => {
+  zb.createWorker({
+    taskType: "publish-outcome",
+    taskHandler: (job, complete) => {
       const { workflowInstanceKey, variables } = job;
       const { operation_success, outcome_message } = variables;
       try {
@@ -156,12 +140,10 @@ async function startOutcomeWorker() {
         complete.success();
       }
     },
-    {
-      loglevel: "NONE",
-      timeout: 10000,
-      longPoll: 120000
-    }
-  );
+    loglevel: "NONE",
+    timeout: Duration.seconds.of(30),
+    longPoll: Duration.seconds.of(60)
+  });
 }
 
 setInterval(
