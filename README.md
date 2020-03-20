@@ -12,10 +12,15 @@ You can use this demo to see:
 - How to retrieve workflow outcomes for external requestors (Keep an eye on [this issue](https://github.com/zeebe-io/zeebe/issues/2896)).
 - How long end-to-end execution of a workflow takes in various load scenarios.
 
+## Other Resources
+
+This is an introduction to basic usage. For a discussion of advanced resiliency patterns, including circuit-breaking and compensation, see the [Flowing Retail repository](https://github.com/berndruecker/flowing-retail).
+
 ## Setup
 
 - Install dependencies with `npm i`.
-- Use the `operate` or `broker-only` profile of [zeebe-docker-compose](https://github.com/zeebe-io/zeebe-docker-compose) to start the broker.
+- For a local broker, use the `operate` or `broker-only` profile of [zeebe-docker-compose](https://github.com/zeebe-io/zeebe-docker-compose) to start the broker.
+- For Camunda Cloud, see [this section](#camunda-cloud)
 
 The file `rest-server/config.ts` configures the number of workflows that will be executed in parallel. You can set it to `1` to execute workflows sequentially to get a sense of the end-to-end execution time of the workflow. You can run `cyber-monday` with 1000 iterations and the parallel workflows set to 1000 to run them all in parallel, and anything in between.
 
@@ -30,7 +35,7 @@ npm run payment
 npm run ships
 ```
 
-The webstore is running on localhost:3000/shop. It's a dummy at the moment, and the client API requests are emulated in `rest-client`.
+The webstore is running on [http://localhost:3000/shop](http://localhost:3000/shop). It's a dummy at the moment, and the client API requests are emulated in `rest-client`.
 
 - Start workflows:
 
@@ -46,6 +51,8 @@ The `cyber-monday` scenario is configured in `microservices/cyber-monday.ts`. Se
 If you start the Operate profile, then Operate is running on [http://localhost:8080](http://localhost:8080). Login is demo/demo.
 
 Experiment with making orders, with all microservices running, and with various ones in a failure state.
+
+<a name = "camunda-cloud">
 
 ## Run on Camunda Cloud
 
