@@ -58,7 +58,7 @@ Experiment with making orders, with all microservices running, and with various 
 
 To run on Camunda Cloud:
 
-* Get an account in the beta [here](https://camunda.io).
+* Get an account for Camunda Cloud [here](https://camunda.io).
 * Create a new Zeebe cluster.
 * Create a new client in the console.
 * Copy your worker credentials.
